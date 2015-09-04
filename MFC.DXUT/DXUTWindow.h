@@ -24,6 +24,8 @@ public:
 	afx_msg void OnDestroy();
 	afx_msg int OnCreate( LPCREATESTRUCT lpCreateStruct );
 	afx_msg void OnMouseMove( UINT nFlags, CPoint point );
+	afx_msg void OnSize( UINT nType, int cx, int cy );
+	afx_msg void OnSizing( UINT fwSide, LPRECT pRect );
 };
 
 

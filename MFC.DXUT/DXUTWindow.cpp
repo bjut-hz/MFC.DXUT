@@ -25,6 +25,8 @@ BEGIN_MESSAGE_MAP(CDXUTWindow, CWnd)
 	ON_WM_DESTROY()
 	ON_WM_CREATE()
 	ON_WM_MOUSEMOVE()
+	ON_WM_SIZE()
+	ON_WM_SIZING()
 END_MESSAGE_MAP()
 
 
@@ -41,9 +43,17 @@ void CDXUTWindow::DXUTInitWindow(){
 BOOL CDXUTWindow::PreTranslateMessage( MSG* pMsg )
 {
 	// TODO: Add your specialized code here and/or call the base class
+	//捕获esc键消息，使得渲染窗口不再响应该消息
+	switch( pMsg->message ){
+	case WM_KEYDOWN:
+		switch( pMsg->wParam ){
+		case VK_ESCAPE:
+			return CWnd::PreTranslateMessage( pMsg );
+		}
+	}
+	assert(pMsg->hwnd == m_hWnd);
 	DXUTStaticWndProc( pMsg->hwnd, pMsg->message,
 		pMsg->wParam, pMsg->lParam );
-
 
 	return CWnd::PreTranslateMessage( pMsg );
 }
@@ -92,4 +102,22 @@ void CDXUTWindow::OnMouseMove( UINT nFlags, CPoint point )
 	SetFocus();
 
 	CWnd::OnMouseMove( nFlags, point );
+}
+
+
+void CDXUTWindow::OnSize( UINT nType, int cx, int cy )
+{
+	CWnd::OnSize( nType, cx, cy );
+
+	// TODO: Add your message handler code here
+	DXUTStaticWndProc( m_hWnd, WM_SIZE,
+		0, 0 );
+}
+
+
+void CDXUTWindow::OnSizing( UINT fwSide, LPRECT pRect )
+{
+	CWnd::OnSizing( fwSide, pRect );
+
+	// TODO: Add your message handler code here
 }
